@@ -98,7 +98,7 @@
     // Timetable data for each day
     const timetableData = {
       Monday: {
-        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:40"],
         statuses: [
           "1교시 국사 시작 전", "1교시 국사 진행 중", "2교시 수학 시작 전", "2교시 수학 진행 중", "3교시 통과 시작 전", "3교시 통과 진행 중",
           "4교시 정보 시작 전", "4교시 정보 진행 중", "점심시간", "5교시 창체 시작 전", "5교시 창체 진행 중", "6교시 영어 시작 전",
@@ -110,7 +110,7 @@
         ]
       },
       Tuesday: {
-        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:30"],
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:40"],
         statuses: [
           "1교시 통과 시작 전", "1교시 통과 진행 중", "2교시 통사 시작 전", "2교시 통사 진행 중", "3교시 음악 시작 전", "3교시 음악 진행 중", 
           "4교시 체육 시작 전", "4교시 체육 진행 중", "점심시간", "5교시 국어 시작 전", "5교시 국어 진행 중", "6교시 진로 시작 전",
@@ -122,7 +122,7 @@
         ]
       },
       Wednesday: {
-        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:40"],
         statuses: [
           "1교시 정보 시작 전", "1교시 정보 진행 중", "2교시 미술 시작 전", "2교시 미술 진행 중", "3교시 미술 시작 전", "3교시 미술 진행 중", 
           "4교시 국사 시작 전", "4교시 국사 진행 중", "점심시간", "5교시 영어 시작 전", "5교시 영어 진행 중", "6교시 수학 시작 전", 
@@ -134,7 +134,7 @@
         ]
       },
       Thursday: {
-        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:30"],
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:40"],
         statuses: [
           "1교시 체육 시작 전", "1교시 체육 진행 중", "2교시 음악 시작 전", "2교시 음악 진행 중", "3교시 국어 시작 전", "3교시 국어 진행 중", 
           "4교시 실험 시작 전", "4교시 실험 진행 중", "점심시간", "5교시 통과 시작 전", "5교시 통과 진행 중", "6교시 국사 시작 전", 
@@ -146,84 +146,86 @@
         ]
       },
       Friday: {
-        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "80:40"],
         statuses: [
-          "1교시 정보 시작 전", "1교시 정보 진행 중", "2교시 통사 시작 전", "2교시 통사 진행 중", "3교시 수학 시작 전", "3교시 수학 진행 중", 
-          "4교시 영어 시작 전", "4교시 영어 진행 중", "점심시간", "5교시 국어 시작 전", "5교시 국어 진행 중", "6교시 창진 시작 전", 
-          "6교시 창진 진행 중", "7교시 창체 시작 전", "7교시 창체 진행 중", "월요일 1교시 국사 시작 전"
+          "1교시 체육 시작 전", "1교시 체육 진행 중", "2교시 음악 시작 전", "2교시 음악 진행 중", "3교시 국어 시작 전", "3교시 국어 진행 중", 
+          "4교시 실험 시작 전", "4교시 실험 진행 중", "점심시간", "5교시 통과 시작 전", "5교시 통과 진행 중", "6교시 국사 시작 전", 
+          "6교시 국사 진행 중", "다음 주 월요일 1교시 정보 시작 전"
         ],
         messages: [
           "이따 만나요!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", 
-          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "월요일에 만나요!"
+          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "내일 만나요!"
         ]
       },
       Saturday: {
-        intervals: ["56:30"],
-        statuses: ["월요일 1교시 국사 시작 전"],
-        messages: ["월요일에 만나요!"]
+        intervals: ["56:40"],
+        statuses: [
+          "다음 주 월요일 1교시 국사 시작 전"
+        ],
+        messages: [
+          "이따 만나요!"
+        ]
       },
       Sunday: {
-        intervals: ["32:30"],
-        statuses: ["월요일 1교시 국사 시작 전"],
-        messages: ["내일 만나요!"]
+        intervals: ["32:40"],
+        statuses: [
+          "다음 주 월요일 1교시 국사 시작 전"
+        ],
+        messages: [
+          "이따 만나요!"
+        ]
       }
     };
 
-    // Set the current day and update the timetable
-    const currentDay = new Date().toLocaleString('en-us', { weekday: 'long' });
-    const dayData = timetableData[currentDay] || timetableData.Monday;
-
-    // Update status, time left, and message
     function updateTimetable() {
-      const currentTime = new Date();
-      const intervals = dayData.intervals;
-      const statuses = dayData.statuses;
-      const messages = dayData.messages;
+      const now = new Date();
+      const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
+      let currentDay = '';
+      let nextDay = '';
 
-      let nextInterval = null;
-      let timeLeft = null;
-      let statusMessage = null;
-      let nextMessage = null;
-
-      for (let i = 0; i < intervals.length; i++) {
-        const intervalTime = intervals[i].split(":");
-        const intervalDate = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), intervalTime[0], intervalTime[1]);
-
-        if (currentTime < intervalDate && nextInterval === null) {
-          nextInterval = intervalDate;
-          statusMessage = statuses[i];
-          nextMessage = messages[i];
-        }
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        currentDay = 'Sunday';
+        nextDay = 'Monday';
+      } else if (dayOfWeek === 1) {
+        currentDay = 'Monday';
+        nextDay = 'Tuesday';
+      } else if (dayOfWeek === 2) {
+        currentDay = 'Tuesday';
+        nextDay = 'Wednesday';
+      } else if (dayOfWeek === 3) {
+        currentDay = 'Wednesday';
+        nextDay = 'Thursday';
+      } else if (dayOfWeek === 4) {
+        currentDay = 'Thursday';
+        nextDay = 'Friday';
+      } else if (dayOfWeek === 5) {
+        currentDay = 'Friday';
+        nextDay = 'Saturday';
       }
 
-      // Time left logic
-      if (nextInterval) {
-        const timeDiff = nextInterval - currentTime;
-        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+      const dayData = timetableData[currentDay];
+      const nextDayData = timetableData[nextDay];
 
-        timeLeft = `${hours}시간 ${minutes}분 ${seconds}초`;
-      }
+      // Set status message
+      const statusElement = document.getElementById("status");
+      statusElement.innerText = dayData.statuses[0];
 
-      // Update the HTML
-      document.getElementById("status").textContent = statusMessage || "Loading...";
-      document.getElementById("time-left").textContent = timeLeft || "--시간 --분 --초";
-      document.getElementById("message").textContent = nextMessage || "Please wait...";
+      const messageElement = document.getElementById("message");
+      messageElement.innerText = dayData.messages[0];
 
-      // Update timetable blocks
-      const timetableContainer = document.getElementById("timetable");
-      timetableContainer.innerHTML = "";
-      for (let i = 0; i < intervals.length; i++) {
-        const div = document.createElement("div");
-        div.innerHTML = `${intervals[i]} - ${statuses[i]}`;
-        timetableContainer.appendChild(div);
-      }
+      // Display timetable
+      const timetableElement = document.getElementById("timetable");
+      timetableElement.innerHTML = '';  // Clear previous timetable
+
+      nextDayData.intervals.forEach((interval, index) => {
+        const timetableItem = document.createElement("div");
+        timetableItem.innerHTML = `<span>${interval}</span><span>${nextDayData.statuses[index]}</span>`;
+        timetableElement.appendChild(timetableItem);
+      });
     }
 
-    // Run the update function every second
-    setInterval(updateTimetable, 1000);
     updateTimetable();
+    setInterval(updateTimetable, 1000); // Update every second
   </script>
 </body>
 </html>
