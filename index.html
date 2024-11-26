@@ -3,211 +3,164 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Next Class Tracker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Class Timetable</title>
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #fafafa;
-      color: #2d2d2d;
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      min-height: 100vh;
-      box-sizing: border-box;
+      height: 100vh;
+      color: #333;
     }
-
     .container {
       text-align: center;
-      background: #ffffff;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      max-width: 750px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       width: 90%;
+      max-width: 600px;
     }
-
-    h1.status {
-      font-size: 2.4rem;
-      font-weight: 600;
-      color: #1d3557;
-      margin-bottom: 25px;
-    }
-
-    .time-left {
+    .status {
       font-size: 3rem;
-      font-weight: 600;
-      color: #e63946;
+      font-weight: bold;
       margin-bottom: 20px;
     }
-
-    .message {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #457b9d;
+    .time-left {
+      font-size: 4rem;
+      font-weight: bold;
       margin-bottom: 30px;
+      color: #ff6f61;
     }
-
+    .message {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #888;
+    }
     .timetable {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin: 20px 0;
-    }
-
-    .timetable div {
-      background-color: #1d3557;
-      color: white;
-      border-radius: 8px;
-      padding: 15px 20px;
-      font-size: 1rem;
-      font-weight: 500;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-
-    .footer a {
-      color: #2a9d8f;
+    .timetable div {
+      background-color: #eeeeee;
+      padding: 10px;
+      border-radius: 10px;
+      min-width: 80px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+    .link {
+      font-size: 1.1rem;
       text-decoration: none;
-      font-size: 1rem;
-      font-weight: 500;
+      color: #007bff;
     }
-
-    .footer a:hover {
+    .link:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 id="status" class="status">Loading...</h1>
-    <div id="time-left" class="time-left">--시간 --분 --초</div>
-    <div id="message" class="message">Please wait...</div>
+    <div class="status" id="status"></div>
+    <div class="time-left" id="time-left"></div>
+    <div class="message" id="message"></div>
     <div class="timetable" id="timetable"></div>
-    <div class="footer">
-      <a href="http://www.컴시간학생.kr">View Full Timetable</a>
-    </div>
+    <a href="#" class="link">View Full Timetable</a>
   </div>
 
   <script>
-    // Timetable data
-    const timetable = {
-      Monday: ["Math", "Science", "History", "Art", "PE", "English", "Geography"],
-      Tuesday: ["Biology", "Math", "Music", "History", "Computer Science", "English"],
-      Wednesday: ["PE", "Art", "Math", "History", "English", "Science", "Music"],
-      Thursday: ["Geography", "Biology", "English", "Math", "Science", "History"],
-      Friday: ["Art", "PE", "Computer Science", "Music", "Math", "Science", "English"]
-    };
-
-    const periods = [
-      { start: "08:40", end: "09:30" },
-      { start: "09:40", end: "10:30" },
-      { start: "10:40", end: "11:30" },
-      { start: "11:40", end: "12:30" },
-      { start: "13:40", end: "14:30" },
-      { start: "14:40", end: "15:30" },
-      { start: "15:40", end: "16:30" }
-    ];
-
-    const today = new Date();
-    const day = today.toLocaleString("en-US", { weekday: "long" });
-    const now = new Date();
-    const isWeekend = ["Saturday", "Sunday"].includes(day);
-    const classes = timetable[day] || [];
-    const timetableEl = document.getElementById("timetable");
-    const statusEl = document.getElementById("status");
-    const timeLeftEl = document.getElementById("time-left");
-    const messageEl = document.getElementById("message");
-
-    // Helper to calculate time difference
-    function getTimeDiff(targetTime) {
-      const [targetHour, targetMinute] = targetTime.split(":").map(Number);
-      const targetTotalMinutes = targetHour * 60 + targetMinute;
-      
-      const now = new Date();
-      const nowTotalMinutes = now.getHours() * 60 + now.getMinutes();
-      const nowSeconds = now.getSeconds();
-      
-      const diffInMinutes = targetTotalMinutes - nowTotalMinutes;
-      const diffInSeconds = diffInMinutes * 60 - nowSeconds;
-      
-      return diffInSeconds; // Can return negative
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const sec = Math.floor(seconds % 60);
+      return `${hours}시간 ${minutes}분 ${sec}초`;
     }
 
+    function getTimeDiff(targetTime) {
+      const now = new Date();
+      const targetDate = new Date(now);
+      const [targetHour, targetMinute] = targetTime.split(":").map(Number);
+      targetDate.setHours(targetHour, targetMinute, 0, 0);
+      return (targetDate - now) / 1000; // time difference in seconds
+    }
 
-    // Render today's timetable
-    function renderTimetable() {
-      timetableEl.innerHTML = "";
-      classes.forEach((cls, index) => {
+    function getNextDayTime() {
+      const now = new Date();
+      const nextDay = new Date(now);
+      nextDay.setHours(8, 40, 0, 0); // Set the time to 08:40 AM on the next day
+      if (now.getHours() >= 8 && now.getMinutes() >= 40) {
+        nextDay.setDate(nextDay.getDate() + 1); // Move to the next day
+      }
+      return nextDay;
+    }
+
+    function getTimeUntilNextClass() {
+      const now = new Date();
+      const nextClassTime = getNextDayTime();
+      const diffInSeconds = (nextClassTime - now) / 1000; // Difference in seconds
+      return diffInSeconds > 0 ? diffInSeconds : 0; // Prevent negative times
+    }
+
+    function updateTimetable() {
+      const now = new Date();
+      const dayOfWeek = now.getDay(); // 0: Sunday, 1: Monday, 2: Tuesday, ..., 6: Saturday
+      const time16_30 = getTimeDiff("16:30");
+      const time08_40 = getTimeDiff("08:40");
+      let status = "";
+      let timeLeftMessage = "";
+      let messageText = "";
+
+      // Check if the current time is between 16:30 and 08:40
+      if ((dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) && time16_30 <= 0 || (dayOfWeek === 2 || dayOfWeek === 4) && time16_30 <= 0) {
+        status = "내일 만나요!";
+        const nextDayTime = "08:40"; // Always 08:40 for the next class
+        timeLeftMessage = formatTime(Math.max(0, getTimeUntilNextClass())); // Time until next 08:40
+        messageText = "새로운 하루를 준비하세요!";
+      }
+
+      // Handle the status between 16:30 and midnight or midnight and 08:40
+      if (getTimeDiff("16:30") <= 0) {
+        status = "내일 만나요!";
+        timeLeftMessage = formatTime(Math.max(0, getTimeUntilNextClass())); // Time till next 08:40
+        messageText = "새로운 하루를 준비하세요!";
+      } else if (getTimeDiff("08:40") > 0) {
+        status = "이따 만나요!";
+        timeLeftMessage = formatTime(Math.max(0, getTimeUntilNextClass())); // Time till next 08:40
+        messageText = "다음 수업 준비하세요!";
+      }
+
+      // Set the status and messages
+      document.getElementById("status").textContent = status;
+      document.getElementById("time-left").textContent = timeLeftMessage;
+      document.getElementById("message").textContent = messageText;
+
+      // Create today's timetable (dummy data for now)
+      const timetableData = [
+        "1st Period", "2nd Period", "3rd Period", "4th Period", "5th Period", "6th Period", "7th Period"
+      ];
+
+      const timetableContainer = document.getElementById("timetable");
+      timetableContainer.innerHTML = ''; // Clear previous timetable
+
+      timetableData.forEach((period, index) => {
         const periodEl = document.createElement("div");
-        periodEl.innerHTML = `<span>Period ${index + 1}</span> <span>${cls}</span>`;
-        timetableEl.appendChild(periodEl);
+        periodEl.textContent = period;
+        timetableContainer.appendChild(periodEl);
       });
     }
 
-    // Update the status and time left
-    function updateStatus() {
-      const now = new Date();
-      const nowSeconds = now.getSeconds();
-      let status = "이따 만나요!";
-      let timeLeftMessage = "--시간 --분 --초";
-      let nextClass = null;
-    
-      for (let i = 0; i < periods.length; i++) {
-        const { start, end } = periods[i];
-        const startDiff = getTimeDiff(start);
-        const endDiff = getTimeDiff(end);
-    
-        if (startDiff <= 0 && endDiff > 0) {
-          // During class
-          status = `${classes[i]} 수업 진행 중`;
-          timeLeftMessage = formatTime(Math.max(0, endDiff)); // Prevent negative time
-          messageEl.textContent = `${classes[i]} 종료까지 남은 시간`;
-          break;
-        } else if (startDiff > 0) {
-          // Before next class
-          status = "쉬는 시간 진행 중";
-          timeLeftMessage = formatTime(Math.max(0, startDiff)); // Prevent negative time
-          nextClass = classes[i];
-          messageEl.textContent = `${nextClass} 시작까지 남은 시간`;
-          break;
-        }
-      }
-    
-      // Special cases
-      if (getTimeDiff("12:30") <= 0 && getTimeDiff("13:40") > 0) {
-        status = "점심시간 진행 중";
-        timeLeftMessage = formatTime(Math.max(0, getTimeDiff("13:40")));
-        messageEl.textContent = "다음 수업 시작까지 남은 시간";
-      } else if (getTimeDiff("16:30") <= 0 || getTimeDiff("08:40") > 0) {
-        status = "내일 만나요!";
-        const nextDayTime = now.getHours() >= 16 ? "08:40" : "16:30";
-        timeLeftMessage = formatTime(Math.max(0, getTimeDiff(nextDayTime)));
-        messageEl.textContent = "새로운 하루를 준비하세요!";
-      }
-    
-      statusEl.textContent = status;
-      timeLeftEl.textContent = timeLeftMessage;
-    }
-    
-    // Format time into "hh시간 mm분 ss초"
-    function formatTime(seconds) {
-      seconds = Math.max(0, seconds); // Ensure no negative time
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      return `${h > 0 ? h + "시간 " : ""}${m}분 ${s}초`;
-    }
+    // Update every second
+    setInterval(updateTimetable, 1000);
 
-    // Initialize the app
-    renderTimetable();
-    updateStatus();
-    setInterval(updateStatus, 1000); // Update every second
+    // Initial update
+    updateTimetable();
   </script>
 </body>
 </html>
