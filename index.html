@@ -4,41 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Next Class</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Importing modern minimalist typography font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <style>
     body {
-      background-color: #F7F7F7; /* Light grey background */
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f8f8; /* Light background */
+      color: #333; /* Dark text for readability */
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      box-sizing: border-box;
     }
+
     .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .card {
-      background: white;
+      text-align: center;
+      background-color: white;
+      padding: 40px;
       border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
     }
-    .header {
-      color: #2C3E50;
-      font-weight: 700;
-      font-size: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #222;
       margin-bottom: 20px;
     }
-    .class-time {
-      font-size: 1.1rem;
-      color: #7F8C8D;
+
+    .next-class {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .next-class span {
+      font-weight: 600;
+      color: #2a9d8f; /* Accent color */
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="card">
-      <h1 class="header">Next Class</h1>
-      <div id="next-class" class="class-time">Loading...</div>
-    </div>
+    <h1>Next Class</h1>
+    <div id="next-class" class="next-class">Loading...</div>
+    <div class="footer">Designed with simplicity in mind.</div>
   </div>
 
   <script>
@@ -72,9 +95,9 @@
       const nextClass = getNextClass();
       const nextClassElement = document.getElementById("next-class");
       if (nextClass) {
-        nextClassElement.textContent = `${nextClass.name} starts at ${nextClass.startTime}`;
+        nextClassElement.innerHTML = `Next class: <span>${nextClass.name}</span> starts at ${nextClass.startTime}`;
       } else {
-        nextClassElement.textContent = "No more classes today!";
+        nextClassElement.innerHTML = "No more classes today!";
       }
     }
 
@@ -82,3 +105,4 @@
   </script>
 </body>
 </html>
+
