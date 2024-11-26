@@ -95,88 +95,135 @@
   </div>
 
   <script>
-    // Define the class schedule intervals for each day
-    const intervals = {
-      "MonWed": ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
-      "TueThu": ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:30"],
-      "Fri": ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "80:30"],
-      "Sat": ["56:30"],
-      "Sun": ["32:30"]
+    // Timetable data for each day
+    const timetableData = {
+      Monday: {
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
+        statuses: [
+          "1교시 국사 시작 전", "1교시 국사 진행 중", "2교시 수학 시작 전", "2교시 수학 진행 중", "3교시 통과 시작 전", "3교시 통과 진행 중",
+          "4교시 정보 시작 전", "4교시 정보 진행 중", "점심시간", "5교시 창체 시작 전", "5교시 창체 진행 중", "6교시 영어 시작 전",
+          "6교시 영어 진행 중", "7교시 통사 시작 전", "7교시 통사 진행 중", "화요일 1교시 통과 시작 전"
+        ],
+        messages: [
+          "이따 만나요!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", 
+          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "내일 만나요!"
+        ]
+      },
+      Tuesday: {
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:30"],
+        statuses: [
+          "1교시 통과 시작 전", "1교시 통과 진행 중", "2교시 통사 시작 전", "2교시 통사 진행 중", "3교시 음악 시작 전", "3교시 음악 진행 중", 
+          "4교시 체육 시작 전", "4교시 체육 진행 중", "점심시간", "5교시 국어 시작 전", "5교시 국어 진행 중", "6교시 진로 시작 전",
+          "6교시 진로 진행 중", "수요일 1교시 정보 시작 전"
+        ],
+        messages: [
+          "이따 만나요!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", 
+          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "내일 만나요!"
+        ]
+      },
+      Wednesday: {
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
+        statuses: [
+          "1교시 정보 시작 전", "1교시 정보 진행 중", "2교시 미술 시작 전", "2교시 미술 진행 중", "3교시 미술 시작 전", "3교시 미술 진행 중", 
+          "4교시 국사 시작 전", "4교시 국사 진행 중", "점심시간", "5교시 영어 시작 전", "5교시 영어 진행 중", "6교시 수학 시작 전", 
+          "6교시 수학 진행 중", "7교시 국어 시작 전", "7교시 국어 진행 중", "목요일 1교시 체육 시작 전"
+        ],
+        messages: [
+          "이따 만나요!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", 
+          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "내일 만나요!"
+        ]
+      },
+      Thursday: {
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "32:30"],
+        statuses: [
+          "1교시 체육 시작 전", "1교시 체육 진행 중", "2교시 음악 시작 전", "2교시 음악 진행 중", "3교시 국어 시작 전", "3교시 국어 진행 중", 
+          "4교시 실험 시작 전", "4교시 실험 진행 중", "점심시간", "5교시 통과 시작 전", "5교시 통과 진행 중", "6교시 국사 시작 전", 
+          "6교시 국사 진행 중", "금요일 1교시 정보 시작 전"
+        ],
+        messages: [
+          "이따 만나요!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", 
+          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "내일 만나요!"
+        ]
+      },
+      Friday: {
+        intervals: ["08:40", "09:30", "09:40", "10:30", "10:40", "11:30", "11:40", "12:30", "13:40", "14:30", "14:40", "15:30", "15:40", "16:30", "32:30"],
+        statuses: [
+          "1교시 정보 시작 전", "1교시 정보 진행 중", "2교시 통사 시작 전", "2교시 통사 진행 중", "3교시 수학 시작 전", "3교시 수학 진행 중", 
+          "4교시 영어 시작 전", "4교시 영어 진행 중", "점심시간", "5교시 국어 시작 전", "5교시 국어 진행 중", "6교시 창진 시작 전", 
+          "6교시 창진 진행 중", "7교시 창체 시작 전", "7교시 창체 진행 중", "월요일 1교시 국사 시작 전"
+        ],
+        messages: [
+          "이따 만나요!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", 
+          "점심시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "수업 중!", "쉬는 시간!", "월요일에 만나요!"
+        ]
+      },
+      Saturday: {
+        intervals: ["56:30"],
+        statuses: ["월요일 1교시 국사 시작 전"],
+        messages: ["월요일에 만나요!"]
+      },
+      Sunday: {
+        intervals: ["32:30"],
+        statuses: ["월요일 1교시 국사 시작 전"],
+        messages: ["내일 만나요!"]
+      }
     };
 
-    // Function to calculate time difference in seconds
-    function getTimeDiff(targetTime) {
-      const [targetHour, targetMinute] = targetTime.split(":").map(Number);
-      const targetTotalMinutes = targetHour * 60 + targetMinute;
-      const now = new Date();
-      const nowMinutes = now.getHours() * 60 + now.getMinutes();
-      const nowSeconds = now.getSeconds();
-      const diffMinutes = targetTotalMinutes - nowMinutes;
-      return diffMinutes * 60 - nowSeconds;
-    }
+    // Set the current day and update the timetable
+    const currentDay = new Date().toLocaleString('en-us', { weekday: 'long' });
+    const dayData = timetableData[currentDay] || timetableData.Monday;
 
-    // Function to format the time difference
-    function formatTime(seconds) {
-      const hours = Math.floor(seconds / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
-      return `${hours > 0 ? hours + "시간 " : ""}${minutes}분 ${secs}초`;
-    }
+    // Update status, time left, and message
+    function updateTimetable() {
+      const currentTime = new Date();
+      const intervals = dayData.intervals;
+      const statuses = dayData.statuses;
+      const messages = dayData.messages;
 
-    // Update the status and time left
-    function updateStatus() {
-      const now = new Date();
-      const day = now.toLocaleString("en-US", { weekday: "long" });
-      const nowTime = now.getHours() * 60 + now.getMinutes();
-      const nowSeconds = now.getSeconds();
-      let status = "이따 만나요!";
-      let timeLeftMessage = "--시간 --분 --초";
-      let nextClass = null;
+      let nextInterval = null;
+      let timeLeft = null;
+      let statusMessage = null;
+      let nextMessage = null;
 
-      // Determine the intervals based on the day
-      let dayKey = "";
-      if (["Monday", "Wednesday"].includes(day)) {
-        dayKey = "MonWed";
-      } else if (["Tuesday", "Thursday"].includes(day)) {
-        dayKey = "TueThu";
-      } else if (day === "Friday") {
-        dayKey = "Fri";
-      } else if (day === "Saturday") {
-        dayKey = "Sat";
-      } else if (day === "Sunday") {
-        dayKey = "Sun";
-      }
+      for (let i = 0; i < intervals.length; i++) {
+        const intervalTime = intervals[i].split(":");
+        const intervalDate = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), intervalTime[0], intervalTime[1]);
 
-      // Get the intervals for the current day
-      const dayIntervals = intervals[dayKey];
-
-      for (let i = 0; i < dayIntervals.length; i++) {
-        const interval = dayIntervals[i];
-        const diff = getTimeDiff(interval);
-        
-        // If the current time is before the interval, show the time until that interval
-        if (diff > 0) {
-          status = "쉬는 시간 진행 중";
-          timeLeftMessage = formatTime(diff);
-          nextClass = `Next Class at ${interval}`;
-          break;
-        } else if (i === dayIntervals.length - 1) {
-          // If no classes left for the day, set the status to "Tomorrow"
-          status = "내일 만나요!";
-          timeLeftMessage = formatTime(getTimeDiff(dayIntervals[0]));
-          nextClass = `First class tomorrow at ${dayIntervals[0]}`;
+        if (currentTime < intervalDate && nextInterval === null) {
+          nextInterval = intervalDate;
+          statusMessage = statuses[i];
+          nextMessage = messages[i];
         }
       }
 
-      // Update status and time left on the page
-      document.getElementById("status").textContent = status;
-      document.getElementById("time-left").textContent = timeLeftMessage;
-      document.getElementById("message").textContent = nextClass;
+      // Time left logic
+      if (nextInterval) {
+        const timeDiff = nextInterval - currentTime;
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        timeLeft = `${hours}시간 ${minutes}분 ${seconds}초`;
+      }
+
+      // Update the HTML
+      document.getElementById("status").textContent = statusMessage || "Loading...";
+      document.getElementById("time-left").textContent = timeLeft || "--시간 --분 --초";
+      document.getElementById("message").textContent = nextMessage || "Please wait...";
+
+      // Update timetable blocks
+      const timetableContainer = document.getElementById("timetable");
+      timetableContainer.innerHTML = "";
+      for (let i = 0; i < intervals.length; i++) {
+        const div = document.createElement("div");
+        div.innerHTML = `${intervals[i]} - ${statuses[i]}`;
+        timetableContainer.appendChild(div);
+      }
     }
 
-    // Initialize the timetable and start updating status
-    updateStatus();
-    setInterval(updateStatus, 1000); // Update every second
+    // Run the update function every second
+    setInterval(updateTimetable, 1000);
+    updateTimetable();
   </script>
 </body>
 </html>
