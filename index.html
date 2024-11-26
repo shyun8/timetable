@@ -8,8 +8,8 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
+      background-color: #fafafa;
+      color: #2d2d2d;
       margin: 0;
       padding: 0;
       display: flex;
@@ -22,54 +22,57 @@
 
     .container {
       text-align: center;
-      background: #fff;
+      background: #ffffff;
       padding: 40px;
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 700px;
-      width: 100%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      max-width: 750px;
+      width: 90%;
     }
 
     h1.status {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 600;
-      color: #222;
-      margin-bottom: 20px;
+      color: #1d3557;
+      margin-bottom: 25px;
     }
 
     .time-left {
-      font-size: 2.8rem;
+      font-size: 3rem;
       font-weight: 600;
-      color: #e76f51;
+      color: #e63946;
       margin-bottom: 20px;
     }
 
     .message {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 400;
-      color: #555;
+      color: #457b9d;
       margin-bottom: 30px;
     }
 
     .timetable {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
 
     .timetable div {
-      background-color: #2a9d8f;
+      background-color: #1d3557;
       color: white;
       border-radius: 8px;
-      padding: 10px 15px;
+      padding: 15px 20px;
       font-size: 1rem;
       font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .footer a {
-      color: #264653;
+      color: #2a9d8f;
       text-decoration: none;
       font-size: 1rem;
       font-weight: 500;
@@ -83,7 +86,7 @@
 <body>
   <div class="container">
     <h1 id="status" class="status">Loading...</h1>
-    <div id="time-left" class="time-left">--:--</div>
+    <div id="time-left" class="time-left">--시간 --분 --초</div>
     <div id="message" class="message">Please wait...</div>
     <div class="timetable" id="timetable"></div>
     <div class="footer">
@@ -113,8 +116,7 @@
 
     const today = new Date();
     const day = today.toLocaleString("en-US", { weekday: "long" });
-    const nowMinutes = today.getHours() * 60 + today.getMinutes();
-
+    const now = new Date();
     const isWeekend = ["Saturday", "Sunday"].includes(day);
     const classes = timetable[day] || [];
     const timetableEl = document.getElementById("timetable");
@@ -126,27 +128,27 @@
     function getTimeDiff(time) {
       const [hour, minute] = time.split(":").map(Number);
       const totalMinutes = hour * 60 + minute;
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
       return totalMinutes - nowMinutes;
     }
 
     // Render today's timetable
-    classes.forEach((cls, index) => {
-      const periodEl = document.createElement("div");
-      periodEl.textContent = `${index + 1}: ${cls}`;
-      timetableEl.appendChild(periodEl);
-    });
+    function renderTimetable() {
+      timetableEl.innerHTML = "";
+      classes.forEach((cls, index) => {
+        const periodEl = document.createElement("div");
+        periodEl.innerHTML = `<span>Period ${index + 1}</span> <span>${cls}</span>`;
+        timetableEl.appendChild(periodEl);
+      });
+    }
 
-    // Determine current status
+    // Update the status and time left
     function updateStatus() {
-      if (isWeekend) {
-        statusEl.textContent = "오늘은 수업이 없어요!";
-        timeLeftEl.textContent = "Enjoy your weekend!";
-        messageEl.textContent = "Relax and recharge for the next week!";
-        return;
-      }
-
+      const now = new Date();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      const nowSeconds = now.getSeconds();
       let status = "이따 만나요!";
-      let timeLeftMessage = "";
+      let timeLeftMessage = "--시간 --분 --초";
       let nextClass = null;
 
       for (let i = 0; i < periods.length; i++) {
@@ -157,13 +159,13 @@
         if (startDiff <= 0 && endDiff > 0) {
           // During class
           status = `${classes[i]} 수업 진행 중`;
-          timeLeftMessage = `${Math.floor(endDiff / 60)}시간 ${endDiff % 60}분 남음`;
+          timeLeftMessage = formatTime(endDiff * 60 - nowSeconds);
           messageEl.textContent = `${classes[i]} 종료까지 남은 시간`;
           break;
         } else if (startDiff > 0) {
           // Before next class
           status = "쉬는 시간 진행 중";
-          timeLeftMessage = `${Math.floor(startDiff / 60)}시간 ${startDiff % 60}분 남음`;
+          timeLeftMessage = formatTime(startDiff * 60 - nowSeconds);
           nextClass = classes[i];
           messageEl.textContent = `${nextClass} 시작까지 남은 시간`;
           break;
@@ -173,22 +175,34 @@
       // Special cases
       if (getTimeDiff("12:30") <= 0 && getTimeDiff("13:40") > 0) {
         status = "점심시간 진행 중";
-        timeLeftMessage = `${Math.floor(getTimeDiff("13:40") / 60)}시간 ${getTimeDiff("13:40") % 60}분 남음`;
+        timeLeftMessage = formatTime(getTimeDiff("13:40") * 60 - nowSeconds);
         messageEl.textContent = "다음 수업 시작까지 남은 시간";
-      } else if (getTimeDiff("16:30") <= 0) {
+      } else if (getTimeDiff("16:30") <= 0 || getTimeDiff("08:40") > 0) {
         status = "내일 만나요!";
-        timeLeftMessage = "오늘 하루 수업이 끝났습니다!";
-        messageEl.textContent = "즐거운 저녁 되세요!";
+        const nextDayTime = now.getHours() >= 16 ? "08:40" : "16:30";
+        timeLeftMessage = formatTime(getTimeDiff(nextDayTime) * 60 - nowSeconds);
+        messageEl.textContent = "새로운 하루를 준비하세요!";
       }
 
       statusEl.textContent = status;
       timeLeftEl.textContent = timeLeftMessage;
     }
 
+    // Format time into "hh시간 mm분 ss초"
+    function formatTime(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      return `${h > 0 ? h + "시간 " : ""}${m}분 ${s}초`;
+    }
+
+    // Initialize the app
+    renderTimetable();
     updateStatus();
-    setInterval(updateStatus, 60000); // Update every minute
+    setInterval(updateStatus, 1000); // Update every second
   </script>
 </body>
 </html>
+
 
 
